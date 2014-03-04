@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project-module
+  type="WEB"
+  name="qhit"
+  id="myeclipse.1286764968500"
+  context-root="/qhit"
+  j2ee-spec="1.4"
+  archive="qhit.war">
+  <attributes>
+    <attribute name="webrootdir" value="WebRoot" />
+  </attributes>
+</project-module>
+

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
+<hibernate-mapping package="com.centrain.hibernate.model.studentexam">
+	<class name="Subject" table="studentexam_subjects">
+		<id name="id">
+			<generator class="native"/>
+		</id>
+		<property name="subject"/>
+		<property name="jieduan"/>
+		<set name="questions" cascade="delete">
+			<key column="subject_id"></key>
+			<one-to-many class="Questions"/>
+		</set>
+		<many-to-one name="subjectType"
+					 class="SubjectType"
+					 column="subjectType_id"/>
+	</class>
+</hibernate-mapping>

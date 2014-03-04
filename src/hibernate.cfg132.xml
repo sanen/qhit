@@ -1,0 +1,49 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE hibernate-configuration PUBLIC
+          "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+          "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+
+<hibernate-configuration>
+<session-factory>
+	<property name="show_sql">true</property>
+	<property name="format_sql">true</property>
+	<property name="myeclipse.connection.profile">sql2005</property>
+	<property name="connection.url">
+		jdbc:sqlserver://localhost:1433;databaseName=qhits309_02
+	</property>
+	<property name="connection.username">sa</property>
+	<property name="connection.password">sa</property>
+	<property name="connection.driver_class">
+		com.microsoft.sqlserver.jdbc.SQLServerDriver
+	</property>
+	<property name="dialect">
+		org.hibernate.dialect.SQLServerDialect
+	</property>
+
+	<!--打开二级缓取-->
+	<property name="cache.use_second_level_cache">true</property>
+
+	<!-- 指定那个二级缓存厂商 -->
+	<property name="cache.provider_class">
+		org.hibernate.cache.EhCacheProvider
+	</property>
+  
+	<!-- 打开查询缓取 -->
+	<property name="cache.use_query_cache">true</property>
+
+	<mapping
+		resource="com/centrain/hibernate/center/thirteenth/cache/Account.hbm.xml" />
+	<mapping
+		resource="com/centrain/hibernate/center/thirteenth/cache/Account1.hbm.xml" />
+
+	<!-- 指定那个实例用二级缓取 -->
+	<mapping
+		resource="com/centrain/hibernate/center/thirteenth/cache/User.hbm.xml" />
+	<class-cache
+		class="com.centrain.hibernate.center.thirteenth.cache.User"
+		usage="read-only" />
+
+
+</session-factory>
+
+</hibernate-configuration>

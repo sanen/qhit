@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts-config PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 1.3//EN" "http://struts.apache.org/dtds/struts-config_1_3.dtd">
+
+<struts-config>
+  <form-beans>
+ 	<form-bean name="StudetnForm" type="com.centrain.struts.form.StudentForm"></form-bean>
+ 	<form-bean name="PersonForm" type="com.centrain.struts.form.PersonForm"></form-bean>
+ 	<form-bean name="SelectActionForm" type="com.centrain.struts.form.SelectActionForm"></form-bean>
+ 	<form-bean name="StudentForm" type="com.centrain.struts.form.twelfth.practice.StudentForm"></form-bean>
+	<form-bean name="QuestionsForm" type="com.centrain.struts.form.studentexam.QuestionsForm"/>
+	<form-bean name="UsersForm" type="com.centrain.struts.form.studentexam.UsersForm"/>
+	<form-bean name="SubjectForm" type="com.centrain.struts.form.studentexam.SubjectForm"/>
+	<form-bean name="SubjectTypeForm" type="com.centrain.struts.form.studentexam.SubjectTypeForm"/>
+	<!-- ssh 集成项目 用户信息管理的ActionForm -->
+	<form-bean name="UserForm" type="com.centrian.ssh.web.struts.from.UserForm"/>
+ </form-beans>
+  
+  <global-exceptions />
+   
+  <global-forwards>
+		<forward name="index" path="/index.jsp"/>
+  </global-forwards>
+	
+  <action-mappings>
+  		<!-- ssh集成可选项-->
+  		<!--  
+		<action path="/UserAction"
+				type="org.springframework.web.struts.DelegatingActionProxy"></action>
+		-->
+  		<!-- 学生信息管理 -->
+  		<action path="/StudentAction"
+  				type="com.centrain.struts.action.StudentAction"
+  				name="StudetnForm"
+  				scope="request"
+  				parameter="method"
+  				input="/index.jsp">
+  				<forward name="userinfo" path="/userinfo.jsp"></forward>
+  				<forward name="index" path="/index.jsp"></forward>
+  		</action>
+  		
+  		<action path="/ForwardAction"
+  				forward="/index.jsp"></action>
+  		
+  		<action path="/ForwardAction1"
+  				forward="/twelfthpractice/right.jsp"></action>
+  		
+  		<action path="/ForwardActionBack"
+  				forward="/twelfthpractice/right.jsp"></action>
+  		
+  		
+  		<action path="/PersonAction"
+  				type="com.centrain.struts.action.PersonAction"
+  				name="PersonForm"
+  				parameter="method"
+  				scope="request"
+  				input="/person/addPerson.jsp">
+  				<forward name="add" path="/person/addPerson.jsp"></forward>
+  				<forward name="update" path="/person/updatePerson.jsp"></forward>
+  		</action>
+  		
+  		<action path="/SelectAction"
+  				type="com.centrain.struts.action.SelectAction"
+  				name="SelectActionForm">
+  		</action>
+  		
+  		<action path="/StudentActions"
+  				type="com.centrain.struts.action.twelfth.practice.StudentAction"
+  				name="StudentForm"
+  				parameter="method"
+  				scope="request"/>
+  	   
+  	    <!--IT咨询新闻系统  -->
+		<action path="/NewsAction" parameter="method"></action>
+
+<!--  ===================================================================================== --> 		
+		<!-- 学生考试系统 -->
+  		<!--用户控制器  -->
+		<action path="/UsersAction" 
+				type="com.centrain.struts.action.studentexam.UsersAction" 
+				parameter="method" 
+				scope="request" 
+				validate="true"
+				name="UsersForm"
+				input="/studentexam/index.jsp">
+				<forward name="index" path="/index.jsp"></forward><!-- 登录页面 -->
+				<forward name="userfunctionlist" path="/studentexam/userfunctionlist.jsp"/><!-- 用户功能页面 -->
+				<forward name="registerSuccess" path="/studentexam/registerSuccess.jsp"/><!-- 用户功能页面 -->
+				<forward name="updatepassword" path="/studentexam/updatepassword.jsp"/><!-- 用户功能页面 -->
+				<forward name="managerUser" path="/studentexam/managerUser.jsp"/><!-- 用户功能页面 -->
+		</action>
+		
+		<!-- 考试科目控制器 -->			
+		<action path="/SubjectAction" 
+				type="com.centrain.struts.action.studentexam.SubjectAction" 
+				parameter="method" 
+				scope="request" 
+				validate="true"
+				name="SubjectForm">
+				<forward name="answerQuestions" path="/studentexam/answerQuestions.jsp"/>
+					<forward name="managerQuestions" path="/studentexam/managerQuestions.jsp"/>
+		</action>
+		
+		<!-- 考试考题控制器 -->		
+		<action path="/QuestionsAction" 
+				type="com.centrain.struts.action.studentexam.QuestionsAction" 
+				parameter="method" 
+				scope="request" 
+				validate="true"
+				name="QuestionsForm"
+				input="/studentexam/insertQuestion.jsp"/>
+		
+		<!-- 考试考题控制器 -->		
+		<action path="/SubjectTypeAction" 
+				type="com.centrain.struts.action.studentexam.SubjectTypeAction" 
+				parameter="method" 
+				scope="request" 
+				validate="true"
+				name="SubjectTypeForm"> 
+				<forward name="managerSubjects" path="/managerSubjects.jsp"/>
+		</action>
+		
+		<!-- 为了完成校验而设置的 修改密码控制器 -->
+		<action path="/PasswordAction" 
+				type="com.centrain.struts.action.studentexam.PasswordAction"
+				name="UsersForm"
+				input="/studentexam/updatepassword.jsp"
+				validate="true"
+				parameter="method"></action>
+		
+		<!-- 注册用户前辅助跳转控制器 -->		
+		<action path="/ForwardAction"
+				forward="/studentexam/registeruser.jsp"/>	
+		
+		<!-- 修改个人密码前辅助跳转控制器 -->				
+		<action path="/UpdatePasswordAction"
+				forward="/studentexam/updatepassword.jsp"/>	
+		
+		<!--管理员功能主页面 -->
+		<action path="/FunctionAction"
+				forward="/studentexam/userfunctionlist.jsp"/>	
+		
+		<!--考试科目管理页面 -->
+		<action path="/ManagerSubjectsAction"
+				forward="/studentexam/managerSubjects.jsp"/>
+				
+		<!--跳转到添加相应考试科目试题页面 -->
+		<action path="/AddQuestionAction"
+				forward="/studentexam/insertQuestion.jsp"/>	
+		
+		<!-- 学生考试系统 -->
+<!--===================================================================================== -->
+
+  		<!-- ssh 集成项目 用户信息管理的DispatchAction-->
+  		<action path="/UserAction"
+				type="com.centrian.ssh.web.struts.UserAction" 
+				parameter="method"
+				name="UserForm" 
+				input="/sshUser/insertUser.jsp" >
+				<!-- 用户信息页面 -->
+				<forward name="userlist" path="/sshUser/user_list.jsp"/>
+				<!-- 添加用户页面 -->
+				<forward name="insertUser" path="/sshUser/insertUser.jsp"/>
+				<!-- 修改用户页面 --> 
+				<forward name="updateUser" path="/sshUser/updateUser.jsp"/> 
+		</action>  	
+  </action-mappings>	
+
+  <!-- ssh 集成需要 进行的操作 1、复写struts的requestProcessor ==============================-->
+  <controller>
+		<set-property property="processorClass"
+			value="org.springframework.web.struts.DelegatingRequestProcessor" />
+  </controller>
+  <!-- 国际化资源消息文本 parameter 指定国际化消息文本ApplicationResources.properties的具体位置 -->
+  <message-resources parameter="com.centrain.struts.ApplicationResources" />
+   
+  <!-- Struts1.x 配置 Validator验证框架 -->
+  <plug-in className="org.apache.struts.validator.ValidatorPlugIn">
+			<set-property property="pathnames" 
+				value="/WEB-INF/validator-rules.xml,/WEB-INF/validation.xml" />
+  </plug-in> 
+  
+  <!-- ssh 集成需要 进行的操作 2、SpringIoc容器初始化配置即需在struts-config.xml中配置一个插件 =====================--> 
+  <!-- 
+  <plug-in  className="org.springframework.web.struts.ContextLoaderPlugIn">
+		<set-property property="contextConfigLocation" value="classpath:beans.ssh.xml" />
+  </plug-in>
+  -->
+</struts-config>
+

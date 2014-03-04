@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
+<hibernate-mapping package="com.centrain.ssh.orm.news">
+	<class name="News" table="news"> 
+		<id name="id">
+			<generator class="native"/>
+		</id>
+		<property name="title" length="50" not-null="true"/>
+		<property name="content" not-null="true"/>
+		<property name="begintime" not-null="true"/>
+		<property name="username" not-null="true" length="20"/>
+	</class>
+</hibernate-mapping>

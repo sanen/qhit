@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xmlns:aop="http://www.springframework.org/schema/aop"
+		xmlns:tx="http://www.springframework.org/schema/tx"
+		xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+			http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+			http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd">
+   
+    <!-- 此Spring 配置文件使用的是Spring 2.5.x 的事务处理机制 -->
+    <!-- 方式二 无需加载任何hibernate.cfg.xml 配置-->
+	<bean id="sessionFactory" class="org.springframework.orm.hibernate3.LocalSessionFactoryBean"> 
+		<property name="configLocation">  
+			<value>classpath:hibernate.cfg.ssh.xml</value> 
+		</property>
+	</bean>     
+	<!-- 事物管理器 -->
+	<bean id="transactionManager"
+			  class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+			<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean> 
+	<!-- 通知内容 -->
+	<tx:advice id="txAdvice" transaction-manager="transactionManager">
+		<tx:attributes>
+			<!-- 使用事务针对的方法 -->
+			<!-- 全部方法 -->
+			<tx:method name="*" propagation="REQUIRED"/>
+			<!-- 相关方法 增删改使用事务 查不需-->
+			<!--  
+			<tx:method name="save*" propagation="REQUIRED"/>
+			<tx:method name="delete*" propagation="REQUIRED"/>
+			<tx:method name="update*" propagation="REQUIRED"/>
+			-->
+		</tx:attributes>
+	</tx:advice>  
+	<aop:config>
+		<!-- 横切关注点（通知的载体） --> 
+        <aop:pointcut id="cut" expression="execution(* com.centrian.ssh.service.spring.*.*(..))"/>
+    	<!-- 组织者 (将通知内容，给通知载体) -->
+        <aop:advisor advice-ref="txAdvice" pointcut-ref="cut"/> 
+	</aop:config>  
+
+	<!-- dao -->
+	<bean id="userdao" class="com.centrian.ssh.dao.hibernate.UserDAOHibImpl">
+		<property name="sessionFactory" ref="sessionFactory"/>
+	</bean>
+	<!-- service -->
+	<bean id="userservice" class="ccom.centrian.ssh.service.spring.UserServiceImpl">
+		<property name="userDAO" ref="userdao"/>
+	</bean>	
+	<!-- action -->
+				 
+	<bean name="/UserAction" class="com.centrian.ssh.web.struts.UserAction" scope="prototype">
+		<property name="service" ref="userservice"></property>
+	</bean> 
+	  
+</beans>

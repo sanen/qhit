@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN 2.0//EN" "http://www.springframework.org/dtd/spring-beans-2.0.dtd" >
+<beans>
+
+	<!-- hibernate 纳入IOC管理 -->
+	<!-- 方式二 无需加载任何hibernate.cfg.xml 配置-->
+	<bean id="sessionFactory" class="org.springframework.orm.hibernate3.LocalSessionFactoryBean"> 
+		<property name="configLocation"> 
+			<value>classpath:hibernate.eighteen.cfg.xml</value>
+		</property>
+	</bean>  
+	 
+	<!-- 事物管理器 -->
+	<bean id="transactionManager"
+			  class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+			<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
+	
+	 <!--具体DAO实现bean -->
+	 <bean id="studentdao2" class="com.centrain.spring.dao.eighteen.impl.StudentDAOHibImpl2" >
+		<property name="sessionFactory"> 
+			<ref bean="sessionFactory"/>
+		</property>
+	 </bean>
+	 
+	 <!-- spring1.x事务代理工厂类 -->
+    <bean id="baseTxService" class="org.springframework.transaction.interceptor.TransactionProxyFactoryBean">
+		<property name="transactionManager" ref="transactionManager"/>
+		<property name="transactionAttributes">
+		<!-- 使用事务针对的方法 -->
+		<props>
+			 
+			<prop key="*">PROPAGATION_REQUIRED</prop>
+		 	 <!-- 
+			<prop key="update*">PROPAGATION_REQUIRED</prop>
+			<prop key="del*">PROPAGATION_REQUIRED</prop>
+			<prop key="save*">PROPAGATION_REQUIRED</prop>
+		     -->	 
+		</props>
+		</property>
+		<!-- 简化目标类 -->
+		<property name="target">
+			<ref bean="studentdao2"/>
+		</property>
+	</bean>
+</beans>
