@@ -16,7 +16,7 @@
   
   <body bgcolor="pink">
 	  
-	  	<h2 align="center">清华IT在线模拟考试系统</h2>   
+	  	<h2 align="center">IT在线模拟考试系统</h2>   
 	    <center>请您先登录系统。<!-- <a href="ForwardAction.do">考生注册</a> --> </center>
 	    
 		<html:form action="/UsersAction" method="post">
