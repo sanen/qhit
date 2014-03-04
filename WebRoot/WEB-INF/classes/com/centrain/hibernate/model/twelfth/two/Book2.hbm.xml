@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
+<hibernate-mapping package="com.centrain.hibernate.model.twelfth.two">
+	<class name="Book" table="book2" discriminator-value="ParentBooks">
+		<id name="id" type="string">
+			<column name="id" sql-type="char(32)"></column>
+			<generator class="uuid.hex"></generator>
+		</id>
+		
+		<property name="author" type="string" not-null="true">
+			<column name="author" length="16" not-null="true"></column>
+		</property>
+		
+		<property name="title" type="string" not-null="true">
+			<column name="title" sql-type="char(50)" not-null="true"></column>
+		</property>
+		
+		<property name="price" type="float">
+			<column name="price"></column>
+		</property>
+		
+		<joined-subclass name="GoodBook" table="goodbook">
+			<key column="goodbook_id"></key>
+			<property name="country" type="string" column="country"></property>
+			<property name="number" type="integer" column="number"></property>
+		</joined-subclass>
+		
+		<joined-subclass name="NewBook" table="newbook">
+			<key column="newbook_id"></key>
+			<property name="borrowStatus" type="string" column="borrowStatus"></property>		
+		</joined-subclass>
+		
+	</class>
+</hibernate-mapping>

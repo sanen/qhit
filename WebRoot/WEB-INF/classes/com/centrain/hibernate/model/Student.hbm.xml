@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
+<hibernate-mapping package="com.centrain.hibernate.model">
+	<class name="Student" table="student">
+		<id name="id" type="int">
+			<column name="id"></column>
+			<generator class="native"></generator>
+		</id>
+		<property name="className" type="string">
+			<column name="className"></column>
+		</property>
+		
+		<property name="studentName" type="string">
+			<column name="studentName"></column>
+		</property>
+		
+		<property name="chineseMarks" type="float">
+			<column name="chineseMarks"></column>
+		</property>
+		
+		<property name="mathMarks" type="float">
+			<column name="mathMarks"></column>
+		</property>
+		
+		<property name="englishMarks" type="float">
+			<column name="englishMarks"></column>
+		</property>
+		
+	</class>
+</hibernate-mapping>

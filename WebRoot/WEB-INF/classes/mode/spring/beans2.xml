@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	     xmlns:aop="http://www.springframework.org/schema/aop"
+	     xmlns:tx="http://www.springframework.org/schema/tx"
+	     xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+           http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.0.xsd
+           http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.0.xsd">
+ 
+	<!-- hibernate 纳入IOC管理 -->
+	<!-- 方式二 无需加载任何hibernate.cfg.xml 配置-->
+	<bean id="sessionFactory" class="org.springframework.orm.hibernate3.LocalSessionFactoryBean"> 
+		<property name="configLocation"> 
+			<value>classpath:hibernate.eighteen.cfg.xml</value>
+		</property>
+	</bean>    
+	  
+	<!-- 事物管理器 -->
+	<bean id="transactionManager" 
+			  class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+			<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean> 
+	<!-- Spring2.x 事务处理机制 -->
+	 
+	<!-- 通知内容 -->
+	<tx:advice id="txAdvice" transaction-manager="transactionManager">
+		<tx:attributes>
+			<!-- 使用事务针对的方法 -->
+			<!-- 全部方法 -->
+			<tx:method name="*" propagation="REQUIRED"/>
+			<!-- 相关方法 增删改使用事务 查不需-->
+			<!--  
+			<tx:method name="save*" propagation="REQUIRED"/>
+			<tx:method name="delete*" propagation="REQUIRED"/>
+			<tx:method name="update*" propagation="REQUIRED"/>
+			-->
+		</tx:attributes>
+	</tx:advice>
+	<aop:config>
+		 <!-- 横切关注点（通知的载体） --> 
+        <aop:pointcut id="cut" expression="execution(* com.centrain.spring.dao.eighteen.impl.*.*(..))"/>
+    	<!-- 组织者 (将通知内容，给通知载体) -->
+        <aop:advisor advice-ref="txAdvice" pointcut-ref="cut"/>
+	</aop:config>
+	 
+	 <!--具体DAO实现bean HibernateTemplate-->
+	 <bean id="studentdao3" class="com.centrain.spring.dao.eighteen.impl.StudentDAOHibImpl2" >
+		<property name="sessionFactory"> 
+			<ref bean="sessionFactory"/>
+		</property>
+	 </bean>
+</beans>

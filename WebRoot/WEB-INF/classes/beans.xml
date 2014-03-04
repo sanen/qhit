@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN 2.0//EN" "http://www.springframework.org/dtd/spring-beans-2.0.dtd" >
+<!-- Spring config file -->
+<beans>
+	<!-- Spring SessionFactory初始化 -->
+		<!-- 配置Spring 对Hibernate数据源的主持 -->
+	<bean id="sf" class="org.springframework.orm.hibernate3.LocalSessionFactoryBean"> 
+		<property name="configLocation"> 
+			<value>classpath:hibernate.cfg.xml</value>
+		</property>
+	</bean>  
+	 
+	<bean id="sessionFactory" class="org.springframework.orm.hibernate3.LocalSessionFactoryBean">
+		<property name="dataSource">
+			<ref bean="datasource"/>
+		</property>
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.dialect">
+				      org.hibernate.dialect.SQLServerDialect
+				</prop>
+			</props> 
+		</property>
+		<property name="mappingResources">
+			<list>
+				<!-- Analogous类似 to mapping entries in a Hibernate XML config file. -->
+				<value>com\centrain\hibernate\spring\model\sixteen\User.hbm.xml</value>
+			</list>
+		</property>  
+	</bean>
+
+	<!-- 配置Spring 对JDBC数据源的主持 -->
+	<bean id="datasource" class="org.springframework.jdbc.datasource.DriverManagerDataSource" destroy-method="close">
+		<property name="driverClassName">
+			<value>com.microsoft.sqlserver.jdbc.SQLServerDriver</value>
+		</property>
+		<property name="url">
+			<value>jdbc:sqlserver://localhost:1433;databaseName=qhits309_02</value>
+		</property>
+		<property name="username" value="sa"/>
+		<property name="password" value="sa"/>
+	</bean>
+	
+	<!-- 配置Spring 对JDBC操作的主持 -->
+	<bean id="springuserdao" class="com.centrain.spring.dao.jdbc.impl.UserDAOJdbcImpl" init-method="init" > 
+		<property name="ds" ref="datasource"></property>
+	</bean> 
+	 
+	<!-- 配置Spring 对Hibernate操作的主持 -->
+	<bean id="SHuserdao" class="com.centrain.spring.dao.hibernate.impl.UserDAOHibernateImpl">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory"/> 
+		</property>
+	</bean> 
+	
+	<!-- Hibernate set SessionFactory Object -->
+	
+	<!-- 
+	<bean id="userdao" class="com.centrian.hibernate.dao.impl.UserDAOHibImpl">
+		<property name="sf">
+			<ref bean="sf"/>
+		</property>
+	</bean> 
+	 -->
+	 
+	<!-- 具体Service操作类 serivce user service use dao -->
+	<!-- 
+	<bean id="userservice" class="com.centrian.hibernate.service.impl.UserServiceImpl">
+		<property name="userDAO">
+			<ref bean="userdao"/>
+		</property>   
+	</bean>
+	<bean id="servicetest" class="com.centrian.hibernate.service.impl.test.UserServiceImplTest">
+		<property name="userService">
+			<ref bean="userservice"/>
+		</property>
+	</bean>
+	-->
+</beans>
+
+
+
+
+
+
+
+
+
+

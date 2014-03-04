@@ -1,0 +1,46 @@
+<!DOCTYPE form-validation PUBLIC
+          "-//Apache Software Foundation//DTD Commons Validator Rules Configuration 1.1.3//EN"
+          "http://jakarta.apache.org/commons/dtds/validator_1_1_3.dtd">
+<form-validation>							<!-- 在这里写验证 -->
+  <global>
+   <constant>
+	<constant-name>tel</constant-name>
+	<constant-value>^\d{7}\d*$</constant-value>
+   </constant>
+  </global>
+  <formset>
+    <form name="StudentForm">
+    	
+    	<field property="className" depends="required">
+    		<arg0 key="error.className"/>
+    	</field>
+    	
+    	<field property="studentName" depends="required,minlength,maxlength">
+    		<arg0 key="error.studentName"/>
+    		<arg1 name="minlength" key="${var:minlength}" resource="false"/>
+    		<arg1 name="maxlength" key="${var:maxlength}" resource="false"/>
+    		<var>
+    			<var-name>minlength</var-name>
+    			<var-value>4</var-value>
+    		</var>
+    		<var>
+    			<var-name>maxlength</var-name>
+    			<var-value>8</var-value>
+    		</var>
+    	</field>
+    	
+    	<field property="chineseMarks" depends="required,integer">
+    		<arg0 key="error.chineseMarks"/>
+    	</field>
+    	
+    	<field property="mathMarks" depends="required,integer">
+    		<arg0 key="error.mathMarks"/>
+    	</field>
+    	
+    	<field property="englishMarks" depends="required,integer">
+    		<arg0 key="error.englishMarks"/>
+    	</field>
+    	
+    </form>
+  </formset>
+</form-validation>

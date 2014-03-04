@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
+<hibernate-mapping package="com.centrain.hibernate.model.twelfth.one" auto-import="false">
+	<!--实体映射表  映射方式一  父子实体均在一个数据库表中 -->
+	<class name="User" table="usersll" discriminator-value="ParentUser">
+		
+		<id name="id" type="string" unsaved-value="null">
+			<column name="id" sql-type="char(32)"></column>
+			<generator class="uuid.hex"></generator>
+		</id>
+		
+		<discriminator column="DISCRIMINATOR_USERTYPE" type="string"></discriminator>
+		<property name="name" type="string" not-null="true">
+			<column name="name" length="16" not-null="true"></column>
+		</property>
+		
+		<property name="password" type="string" not-null="true">
+			<column name="password" length="16" not-null="true"></column>
+		</property>
+			
+		<subclass name="PowerUser" discriminator-value="Power">
+			<property name="level" type="integer" column="Poweruser_level"></property>
+			<property name="otherOfPower" type="string" column="Power_other"></property>
+		</subclass>
+	
+		<subclass name="GuestUser" discriminator-value="Guest">
+			<property name="otherOfGuest" type="string" column="Guest_other"></property>
+		</subclass>
+		
+	</class>
+	
+</hibernate-mapping>

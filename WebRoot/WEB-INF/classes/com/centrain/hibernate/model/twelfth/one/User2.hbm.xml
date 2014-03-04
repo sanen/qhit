@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
+<hibernate-mapping package="com.centrain.hibernate.model.twelfth.one">
+	<!--实体映射表  映射方式二  父子实体分别在不同的数据库表中，且子类中的主键依赖于父类中的主键 -->
+	<class name="User" table="usersll_2"> 
+		<id name="id" type="string" unsaved-value="null"> 
+			<column name="id"></column>
+			<generator class="uuid.hex"></generator>
+		</id>
+		
+		<property name="name" type="string" not-null="true">
+			<column name="name" length="16" not-null="true"></column>
+		</property>
+		  
+		<property name="password" type="string" not-null="true">
+			<column name="password" length="16" not-null="true"></column>
+		</property>
+		
+		<joined-subclass name="GuestUser" table="guest_user">
+			<key column="power_user_id"></key>
+			<property name="otherOfGuest" type="string" column="guest_other"></property>
+		</joined-subclass>
+		 
+		<joined-subclass name="PowerUser" table="power_user">
+			<key column="power_user_id"></key>
+			<property name="level" type="integer" column="power_user_level"></property>
+			<property name="otherOfPower" type="string" column="power_other"></property>
+		</joined-subclass>
+		
+	</class>
+</hibernate-mapping>
